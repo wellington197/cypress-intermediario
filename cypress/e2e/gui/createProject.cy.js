@@ -1,11 +1,16 @@
 import { faker } from '@faker-js/faker'
 
+const options = { env: { snapshotOnly: true } } //nos testes de _GUI_, também tenhamos _feedback_ visual quando chamadas de API estiverem rodando.
+
+
 //Faker é uma biblioteca para criar dados aleatórios.
-describe('Create Project', () => {
+describe('Create Project',options, () => {
 
     /*------- PRÉ-CONDIÇÃO ------ */
     beforeEach(() => {
-      cy.login() //Efetua Login
+    cy.api_deleteProjects() // deleta os projetos antes de criar um novo
+
+    cy.login() //Efetua Login
     })
   
     it('Creando um projeto automático com faker para inserir nome aleatório no projeto', () => {

@@ -1,5 +1,9 @@
 const accessToken = `Bearer ${Cypress.env('gitlab_access_token')}`
 
+
+
+/*-------------CRIANDO UM PROJETO ----------------------- */
+
 Cypress.Commands.add('api_createProject', project => {
   cy.request({
     method: 'POST',
@@ -14,6 +18,7 @@ Cypress.Commands.add('api_createProject', project => {
 })
 
 
+/*-------------SELECIONANDO PROJETO ----------------------- */
 
 Cypress.Commands.add('api_getAllProjects', () => {
     cy.request({
@@ -22,7 +27,8 @@ Cypress.Commands.add('api_getAllProjects', () => {
       headers: { Authorization: accessToken },
     })
   })
-  
+/*-------------DELETANDO PROJETO ----------------------- */
+
   Cypress.Commands.add('api_deleteProjects', () => {
     cy.api_getAllProjects().then(res =>
       res.body.forEach(project => cy.request({
@@ -32,3 +38,45 @@ Cypress.Commands.add('api_getAllProjects', () => {
       }))
     )
   })
+
+/*-------------CRIANDO UMA ISSUE ----------------------- */
+
+  Cypress.Commands.add('api_createIssue', issue => {
+    cy.api_createProject(issue.project)
+      .then(response => {
+        cy.request({
+          method: 'POST',
+          url: `/api/v4/projects/${response.body.id}/issues`,
+          body: {
+            title: issue.title,
+            description: issue.description
+          },
+          headers: { Authorization: accessToken },
+        })
+    })
+  })
+
+/*-------------CRIANDO UMA LABEL ----------------------- */
+  Cypress.Commands.add('api_createLabel', (projectId, label) => {
+    cy.request({
+      method: 'POST',
+      url: `/api/v4/projects/${projectId}/labels`,
+      body: {
+        name: label.name,
+        color: label.color
+      },
+      headers: { Authorization: accessToken },
+    })
+  })
+  
+/*-------------CRIANDO UMA MILESTONE ----------------------- */
+
+  Cypress.Commands.add('api_createMilestone', (projectId, milestone) => {
+    cy.request({
+      method: 'POST',
+      url: `/api/v4/projects/${projectId}/milestones`,
+      body: { title: milestone.title },
+      headers: { Authorization: accessToken },
+    })
+  })
+  
