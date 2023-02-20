@@ -8,10 +8,10 @@ describe('Create Project', () => {
       cy.login() //Efetua Login
     })
   
-    it('successfully', () => {
+    it('Creando um projeto automático com faker para inserir nome aleatório no projeto', () => {
       const project = {
         name: `project-${faker.datatype.uuid()}`, //temp´late literals
-        description: faker.random.words(5) // insere 5 palavras
+        description: faker.random.words(10) // insere 5 palavras
       }
       
     /*-----AÇÃO----*/
