@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 
-describe('Create issue', () => {
-    beforeEach(() => cy.api_deleteProjects())
+describe('Create project via API', () => {
+    beforeEach(() => cy.api_deleteProjects()) // deleta os projetos antes de criar um novo
 
 
   it('successfully', () => {
